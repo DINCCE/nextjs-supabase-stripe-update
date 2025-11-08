@@ -4,7 +4,7 @@ export async function POST() {
   const client = await createUpdateClient();
   const { data, error } = await client.entitlements.check("premium");
 
-  if (error || !data.hasAccess) {
+  if (error) {
     return new Response("Error fetching subscriptions", { status: 500 });
   }
 

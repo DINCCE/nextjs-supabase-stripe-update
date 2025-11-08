@@ -3,7 +3,12 @@ import { createUpdateClient } from "@/utils/update/server";
 
 export default async function ProtectedSidebar() {
   const client = await createUpdateClient();
-  const { data } = await client.entitlements.check("premium");
+
+  let hasAccess = false;
+  if (client) {
+    const { data } = await client.entitlements.check("premium");
+    hasAccess = data != null && data.hasAccess;
+  }
 
   return (
     <InPageSidebar
@@ -24,7 +29,7 @@ export default async function ProtectedSidebar() {
         {
           label: "Paid Content",
           href: "/paid-content",
-          disabled: data != null && !data.hasAccess,
+          disabled: !hasAccess,
         },
       ]}
     />

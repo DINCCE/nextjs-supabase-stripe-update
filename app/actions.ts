@@ -3,6 +3,7 @@
 import { createSupabaseClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { encodedRedirect } from "@/utils/redirect";
+import { getFullUrl } from "@/utils/urls";
 
 export const signInAction = async (formData: FormData) => {
   const email = formData.get("email") as string;
@@ -26,9 +27,7 @@ export const signUpAction = async (formData: FormData) => {
   const password = formData.get("password") as string;
   const client = await createSupabaseClient();
 
-  const url = process.env.VERCEL_URL
-    ? `${process.env.VERCEL_URL}/protected`
-    : "http://localhost:3000/protected";
+  const url = getFullUrl("/protected");
 
   const { error } = await client.auth.signUp({
     email,

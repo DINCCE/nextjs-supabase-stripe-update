@@ -1,4 +1,4 @@
-import SubscriptionActions from "@/components/subcription-actions";
+import SubscriptionActions from "@/components/subscription-actions";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/utils/styles";
 import { createUpdateClient } from "@/utils/update/server";
