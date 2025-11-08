@@ -3,8 +3,24 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import PaidContentCard from "@/components/paid-content-card";
 
+export const dynamic = "force-dynamic";
+
 export default async function PaidContent() {
   const client = await createUpdateClient();
+
+  if (!client) {
+    return (
+      <div className="flex min-h-[400px] items-center justify-center">
+        <Card className="p-6">
+          <h2 className="text-xl font-semibold">Not Configured</h2>
+          <p className="mt-2 text-muted-foreground">
+            Update is not configured. Please set your environment variables.
+          </p>
+        </Card>
+      </div>
+    );
+  }
+
   const { data, error } = await client.entitlements.check("premium");
 
   if (error) {

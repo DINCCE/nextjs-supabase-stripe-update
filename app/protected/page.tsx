@@ -1,8 +1,17 @@
 import { createSupabaseClient } from "@/utils/supabase/server";
 import AuthPageSignOutButton from "@/components/auth-sign-out-button";
 
+export const dynamic = "force-dynamic";
+
 export default async function ProtectedPage() {
   const client = await createSupabaseClient();
+
+  if (!client) {
+    return (
+      <div>Supabase is not configured. Please set your environment variables.</div>
+    );
+  }
+
   const {
     data: { user },
   } = await client.auth.getUser();
@@ -62,7 +71,7 @@ export default async function ProtectedPage() {
               <div className="text-muted-foreground">Providers</div>
               <div>
                 {user.identities
-                  ?.map(identity => identity.provider)
+                  ?.map((identity: { provider: string }) => identity.provider)
                   .join(", ") || "Email"}
               </div>
             </div>

@@ -1,8 +1,15 @@
 import { createUpdateClient } from "@/utils/update/server";
 import PricingContent from "@/components/pricing-content";
 
+export const dynamic = "force-dynamic";
+
 export default async function PricingPage() {
   const client = await createUpdateClient();
+
+  if (!client) {
+    return <div>Update is not configured. Please set your environment variables.</div>;
+  }
+
   const { data, error } = await client.billing.getProducts();
   const { data: subscriptionData } = await client.billing.getSubscriptions();
 

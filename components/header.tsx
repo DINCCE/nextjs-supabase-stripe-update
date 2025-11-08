@@ -4,9 +4,14 @@ import { createSupabaseClient } from "@/utils/supabase/server";
 
 export default async function Header() {
   const client = await createSupabaseClient();
-  const {
-    data: { user },
-  } = await client.auth.getUser();
+  let user = null;
+
+  if (client) {
+    const {
+      data: { user: authUser },
+    } = await client.auth.getUser();
+    user = authUser;
+  }
 
   return (
     <nav className="border-b w-full h-16 shrink-0 flex items-center">

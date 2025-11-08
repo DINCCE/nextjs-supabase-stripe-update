@@ -3,8 +3,15 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/utils/styles";
 import { createUpdateClient } from "@/utils/update/server";
 
+export const dynamic = "force-dynamic";
+
 export default async function Page() {
   const client = await createUpdateClient();
+
+  if (!client) {
+    return <div>Update is not configured. Please set your environment variables.</div>;
+  }
+
   const { data, error } = await client.billing.getSubscriptions();
 
   if (error) {
@@ -26,7 +33,7 @@ export default async function Page() {
         </div>
       </div>
       <div className="space-y-6">
-        {data.subscriptions.map((subscription, index) => (
+        {data.subscriptions.map((subscription: any, index: number) => (
           <Card key={index}>
             <h2 className="font-medium">{subscription.product.name}</h2>
             <div className="grid gap-2 mt-2 text-sm">
